@@ -62,7 +62,7 @@ namespace Miam.DataLayer.EntityFramework
             _context.Reviews.RemoveRange(_context.Reviews);
             _context.RestaurantTags.RemoveRange(_context.RestaurantTags);
             _context.MiamUsers.RemoveRange(_context.MiamUsers);
-            _context.Roles.RemoveRange(_context.Roles);
+            _context.MiamRoles.RemoveRange(_context.MiamRoles);
             _context.SaveChanges();
 
 

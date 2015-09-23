@@ -13,7 +13,7 @@ namespace Miam.DataLayer
         public DbSet<Writer> Writers { get; set; }
         public DbSet<Tag> RestaurantTags { get; set; }
         public DbSet<MiamUser> MiamUsers { get; set; }
-        public DbSet<MiamRole> Roles { get; set; }
+        public DbSet<MiamRole> MiamRoles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

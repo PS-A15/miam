@@ -21,23 +21,37 @@ namespace Miam.DataLayer.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-            var userCount = context.MiamUsers.AsQueryable().Count();
-            if  (userCount == 0)
-            {
-                context.MiamUsers.Add(
+
+            context.MiamUsers.AddOrUpdate(
                 new MiamUser
                 {
                     Name = "Administrateur du système",
                     Password = "admin",
                     Email = "admin@admin.com",
                     Roles = new List<MiamRole>()
-                             {
-                                 new MiamRole() {RoleName = Role.Writer},
-                                 new MiamRole() {RoleName = Role.Admin}
-                             }
-                }
-                );
-            }
+                    {
+                        new MiamRole() {RoleName = Role.Writer},
+                        new MiamRole() {RoleName = Role.Admin}
+                    }
+                });
+
+            //var userCount = context.MiamUsers.AsQueryable().Count();
+            //if  (userCount == 0)
+            //{
+            //    context.MiamUsers.Add(
+            //    new MiamUser
+            //    {
+            //        Name = "Administrateur du système",
+            //        Password = "admin",
+            //        Email = "admin@admin.com",
+            //        Roles = new List<MiamRole>()
+            //                 {
+            //                     new MiamRole() {RoleName = Role.Writer},
+            //                     new MiamRole() {RoleName = Role.Admin}
+            //                 }
+            //    }
+            //    );
+            //}
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
@@ -49,7 +63,7 @@ namespace Miam.DataLayer.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            
+
         }
     }
 }
