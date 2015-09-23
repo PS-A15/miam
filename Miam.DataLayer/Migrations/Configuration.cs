@@ -21,19 +21,37 @@ namespace Miam.DataLayer.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
+            context.MiamRoles.AddOrUpdate(
+                x => x.RoleName,
+                new MiamRole {RoleName = Role.Writer},
+                new MiamRole {RoleName = Role.Admin});
 
-            context.MiamUsers.AddOrUpdate(
-                new MiamUser
-                {
-                    Name = "Administrateur du système",
-                    Password = "admin",
-                    Email = "admin@admin.com",
-                    Roles = new List<MiamRole>()
-                    {
-                        new MiamRole() {RoleName = Role.Writer},
-                        new MiamRole() {RoleName = Role.Admin}
-                    }
-                });
+            //var roleAdminId = context.MiamRoles.First(x => x.RoleName == Role.Admin).Id;
+            //var roleWriterId = context.MiamRoles.First(x => x.RoleName == Role.Writer).Id;
+
+            //context.MiamUsers.Add(
+            //    new MiamUser
+            //    {
+            //        Name = "Administrateur du système",
+            //        Password = "admin",
+            //        Email = "admin@admin.com",
+            //        Roles = new List<MiamRole>()
+            //        {
+            //            new MiamRole() {Id = roleAdminId},
+            //            new MiamRole() {Id = roleWriterId}
+            //        }
+            //    });
+
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  to avoid creating duplicate seed data. E.g.
+            //
+            //    context.People.AddOrUpdate(
+            //      p => p.FullName,
+            //      new Person { FullName = "Andrew Peters" },
+            //      new Person { FullName = "Brice Lambson" },
+            //      new Person { FullName = "Rowan Miller" }
+            //    );
+            //
 
             //var userCount = context.MiamUsers.AsQueryable().Count();
             //if  (userCount == 0)
