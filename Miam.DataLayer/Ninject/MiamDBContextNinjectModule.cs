@@ -5,6 +5,6 @@ public class MiamDBContextNinjectModule : NinjectModule
 {
     public override void Load()
     {
-        Bind<MiamDbContext>().ToSelf().InScope(x => x.Request);
+        Bind<MiamDbContext>().ToSelf().InScope(x => x.Kernel);
     }
 }

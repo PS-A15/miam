@@ -19,28 +19,47 @@ namespace Miam.DataLayer.Migrations
 
         protected override void Seed(Miam.DataLayer.MiamDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            //  Le seed est executé à chaque fois qu'une migration est ajoutée. 
 
-            context.MiamRoles.AddOrUpdate(
-                x => x.RoleName,
-                new MiamRole {RoleName = Role.Writer},
-                new MiamRole {RoleName = Role.Admin});
+
+            // Ajout dans la BD des rôles. S'ils existent déjà, ils ne seront pas ajoutés en double.
+            context.MiamRoles.AddOrUpdate(x => x.RoleName,
+                new MiamRole { RoleName = Role.Writer },
+                new MiamRole { RoleName = Role.Admin }
+                );
+
+            context.SaveChanges();
+
+            // Création d'un admin par défaut 
+            var miamUser = new MiamUser()
+               {
+                   Name = "Administrateur du système",
+                   Password = "admin",
+                   Email = "admin@admin.com",
+               };
+            miamUser.Roles.Add(context.MiamRoles.First(x => x.RoleName == Role.Admin));
+            miamUser.Roles.Add(context.MiamRoles.First(x => x.RoleName == Role.Writer));
+
+            // Ajout de l'admin si aucun utilisateur dans la BD
+            if (!context.MiamUsers.AsQueryable().Any())
+            { 
+                context.MiamUsers.Add(miamUser);
+            }
+
+
+            //if (!context.MiamRoles.Any(r => r.RoleName == "AppAdmin"))
+            //{
+            //    var store = new RoleStore<IdentityRole>(context);
+            //    var manager = new RoleManager<IdentityRole>(store);
+            //    var role = new IdentityRole { Name = "AppAdmin" };
+
+            //    manager.Create(role);
+            //}
 
             //var roleAdminId = context.MiamRoles.First(x => x.RoleName == Role.Admin).Id;
             //var roleWriterId = context.MiamRoles.First(x => x.RoleName == Role.Writer).Id;
 
-            //context.MiamUsers.Add(
-            //    new MiamUser
-            //    {
-            //        Name = "Administrateur du système",
-            //        Password = "admin",
-            //        Email = "admin@admin.com",
-            //        Roles = new List<MiamRole>()
-            //        {
-            //            new MiamRole() {Id = roleAdminId},
-            //            new MiamRole() {Id = roleWriterId}
-            //        }
-            //    });
+
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.

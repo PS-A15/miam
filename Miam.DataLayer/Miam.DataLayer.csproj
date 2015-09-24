@@ -102,21 +102,9 @@
     <Compile Include="EntityFramework\EfEntityRepository.cs" />
     <Compile Include="EntityFramework\EfDropCreateIfModelChangesSeeder.cs" />
     <Compile Include="IMiamDbContext .cs" />
-    <Compile Include="Migrations\201509121048167_InitialCreate.cs" />
-    <Compile Include="Migrations\201509121048167_InitialCreate.Designer.cs">
-      <DependentUpon>201509121048167_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509232105351_NomDeLaMigration.cs" />
-    <Compile Include="Migrations\201509232105351_NomDeLaMigration.Designer.cs">
-      <DependentUpon>201509232105351_NomDeLaMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509232109223_Roles.cs" />
-    <Compile Include="Migrations\201509232109223_Roles.Designer.cs">
-      <DependentUpon>201509232109223_Roles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509232110172_Roles2.cs" />
-    <Compile Include="Migrations\201509232110172_Roles2.Designer.cs">
-      <DependentUpon>201509232110172_Roles2.cs</DependentUpon>
+    <Compile Include="Migrations\201509241837097_initial.cs" />
+    <Compile Include="Migrations\201509241837097_initial.Designer.cs">
+      <DependentUpon>201509241837097_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Ninject\MiamDBContextNinjectModule.cs" />
@@ -135,17 +123,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201509121048167_InitialCreate.resx">
-      <DependentUpon>201509121048167_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509232105351_NomDeLaMigration.resx">
-      <DependentUpon>201509232105351_NomDeLaMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509232109223_Roles.resx">
-      <DependentUpon>201509232109223_Roles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509232110172_Roles2.resx">
-      <DependentUpon>201509232110172_Roles2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201509241837097_initial.resx">
+      <DependentUpon>201509241837097_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,7 +12,7 @@ namespace Miam.Domain.Entities
         public string Name { get; set; }
         [Required] 
         public string City { get; set; }
-        public string AAA{ get; set; }
+
         [Required] 
         public string Country { get; set; }
         
