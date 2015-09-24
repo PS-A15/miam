@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Miam.Domain.Application;
 using Miam.Domain.Entities;
 
@@ -14,25 +13,33 @@ namespace Miam.DataLayer.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "Miam.DataLayer.MiamDbContext";
         }
 
         protected override void Seed(Miam.DataLayer.MiamDbContext context)
         {
-            //  Le seed est executé à chaque fois qu'une migration est ajoutée. 
+            //  Le seed est exécuté à chaque fois qu'une migration est ajoutée à la BD. 
 
-            // Ajout dans la BD des rôles. S'ils existent déjà, ils ne seront pas ajoutés en double.
-            context.MiamRoles.AddOrUpdate(x => x.RoleName,
-                new MiamRole { RoleName = Role.Writer },
-                new MiamRole { RoleName = Role.Admin }
+            AddRolesIfTheyAreNotInMiamRolesTable(context);
+            AddDefaultAdminIfMiamUserTableIsEmpty(context);
+        }
+
+        private static void AddRolesIfTheyAreNotInMiamRolesTable(MiamDbContext context)
+        {
+            //S'ils existent déjà, ils ne seront pas ajoutés de nouveau.
+            context.MiamRoles.AddOrUpdate(
+                x => x.RoleName,
+                new MiamRole {RoleName = Role.Writer},
+                new MiamRole {RoleName = Role.Admin}
                 );
+            context.SaveChanges(); //Ce fait aussi à la fin du seed, mais nous avons besoin des ID dans AddDefaultAdminIfNoUserInDatabase
+        }
 
-            context.SaveChanges();
-
+        private void AddDefaultAdminIfMiamUserTableIsEmpty(MiamDbContext context)
+        {
             // Création d'un admin par défaut 
             var miamUser = new MiamUser()
             {
-                Name = "Administrateur du système",
+                Name = "Nom Administrateur",
                 Password = "admin",
                 Email = "admin@admin.com",
             };

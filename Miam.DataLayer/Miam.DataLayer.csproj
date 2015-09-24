@@ -102,9 +102,9 @@
     <Compile Include="EntityFramework\EfEntityRepository.cs" />
     <Compile Include="EntityFramework\EfDropCreateIfModelChangesSeeder.cs" />
     <Compile Include="IMiamDbContext .cs" />
-    <Compile Include="Migrations\201509241837097_initial.cs" />
-    <Compile Include="Migrations\201509241837097_initial.Designer.cs">
-      <DependentUpon>201509241837097_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201509242000461_initialCreate.cs" />
+    <Compile Include="Migrations\201509242000461_initialCreate.Designer.cs">
+      <DependentUpon>201509242000461_initialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Ninject\MiamDBContextNinjectModule.cs" />
@@ -123,8 +123,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201509241837097_initial.resx">
-      <DependentUpon>201509241837097_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201509242000461_initialCreate.resx">
+      <DependentUpon>201509242000461_initialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
