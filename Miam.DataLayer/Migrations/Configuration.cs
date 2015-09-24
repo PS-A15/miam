@@ -21,7 +21,6 @@ namespace Miam.DataLayer.Migrations
         {
             //  Le seed est executé à chaque fois qu'une migration est ajoutée. 
 
-
             // Ajout dans la BD des rôles. S'ils existent déjà, ils ne seront pas ajoutés en double.
             context.MiamRoles.AddOrUpdate(x => x.RoleName,
                 new MiamRole { RoleName = Role.Writer },
@@ -32,75 +31,19 @@ namespace Miam.DataLayer.Migrations
 
             // Création d'un admin par défaut 
             var miamUser = new MiamUser()
-               {
-                   Name = "Administrateur du système",
-                   Password = "admin",
-                   Email = "admin@admin.com",
-               };
+            {
+                Name = "Administrateur du système",
+                Password = "admin",
+                Email = "admin@admin.com",
+            };
             miamUser.Roles.Add(context.MiamRoles.First(x => x.RoleName == Role.Admin));
             miamUser.Roles.Add(context.MiamRoles.First(x => x.RoleName == Role.Writer));
 
             // Ajout de l'admin si aucun utilisateur dans la BD
             if (!context.MiamUsers.AsQueryable().Any())
-            { 
+            {
                 context.MiamUsers.Add(miamUser);
             }
-
-
-            //if (!context.MiamRoles.Any(r => r.RoleName == "AppAdmin"))
-            //{
-            //    var store = new RoleStore<IdentityRole>(context);
-            //    var manager = new RoleManager<IdentityRole>(store);
-            //    var role = new IdentityRole { Name = "AppAdmin" };
-
-            //    manager.Create(role);
-            //}
-
-            //var roleAdminId = context.MiamRoles.First(x => x.RoleName == Role.Admin).Id;
-            //var roleWriterId = context.MiamRoles.First(x => x.RoleName == Role.Writer).Id;
-
-
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
-
-            //var userCount = context.MiamUsers.AsQueryable().Count();
-            //if  (userCount == 0)
-            //{
-            //    context.MiamUsers.Add(
-            //    new MiamUser
-            //    {
-            //        Name = "Administrateur du système",
-            //        Password = "admin",
-            //        Email = "admin@admin.com",
-            //        Roles = new List<MiamRole>()
-            //                 {
-            //                     new MiamRole() {RoleName = Role.Writer},
-            //                     new MiamRole() {RoleName = Role.Admin}
-            //                 }
-            //    }
-            //    );
-            //}
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
-
         }
     }
 }
