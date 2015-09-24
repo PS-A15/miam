@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Miam.Domain.Application;
 using Miam.Domain.Entities;
 
@@ -14,42 +13,44 @@ namespace Miam.DataLayer.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "Miam.DataLayer.MiamDbContext";
         }
 
         protected override void Seed(Miam.DataLayer.MiamDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            //  Le seed est exécuté à chaque fois qu'une migration est ajoutée à la BD. 
 
-            var userCount = context.MiamUsers.AsQueryable().Count();
-            if  (userCount == 0)
-            {
-                context.MiamUsers.Add(
-                new MiamUser
-                {
-                    Name = "Administrateur du système",
-                    Password = "admin",
-                    Email = "admin@admin.com",
-                    Roles = new List<MiamRole>()
-                             {
-                                 new MiamRole() {RoleName = Role.Writer},
-                                 new MiamRole() {RoleName = Role.Admin}
-                             }
-                }
+            AddRolesIfTheyAreNotInMiamRolesTable(context);
+            AddDefaultAdminIfMiamUserTableIsEmpty(context);
+        }
+
+        private static void AddRolesIfTheyAreNotInMiamRolesTable(MiamDbContext context)
+        {
+            //S'ils existent déjà, ils ne seront pas ajoutés de nouveau.
+            context.MiamRoles.AddOrUpdate(
+                x => x.RoleName,
+                new MiamRole {RoleName = Role.Writer},
+                new MiamRole {RoleName = Role.Admin}
                 );
-            }
+            context.SaveChanges(); //Ce fait aussi à la fin du seed, mais nous avons besoin des ID dans AddDefaultAdminIfNoUserInDatabase
+        }
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
-            
+        private void AddDefaultAdminIfMiamUserTableIsEmpty(MiamDbContext context)
+        {
+            // Création d'un admin par défaut 
+            var miamUser = new MiamUser()
+            {
+                Name = "Nom Administrateur",
+                Password = "admin",
+                Email = "admin@admin.com",
+            };
+            miamUser.Roles.Add(context.MiamRoles.First(x => x.RoleName == Role.Admin));
+            miamUser.Roles.Add(context.MiamRoles.First(x => x.RoleName == Role.Writer));
+
+            // Ajout de l'admin si aucun utilisateur dans la BD
+            if (!context.MiamUsers.AsQueryable().Any())
+            {
+                context.MiamUsers.Add(miamUser);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Miam.Domain.Entities
 {
@@ -7,12 +8,12 @@ namespace Miam.Domain.Entities
 
         public string RoleName { get; set; }
 
-        // Foreign key
-        public int ApplicationUserId { get; set; }
-
         //Navigation properties
-        [Required]
-        public MiamUser MiamUsers { get; set; }
+        public ICollection<MiamUser> MiamUsers { get; set; }
 
+        public MiamRole()
+        {
+            MiamUsers = new List<MiamUser>();
+        }
     }
 }

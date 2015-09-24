@@ -3,10 +3,19 @@ namespace Miam.DataLayer.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class initialCreate : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.MiamRoles",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        RoleName = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
             CreateTable(
                 "dbo.MiamUsers",
                 c => new
@@ -18,19 +27,6 @@ namespace Miam.DataLayer.Migrations
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.MiamRoles",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        RoleName = c.String(),
-                        ApplicationUserId = c.Int(nullable: false),
-                        MiamUsers_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.MiamUsers", t => t.MiamUsers_Id, cascadeDelete: true)
-                .Index(t => t.MiamUsers_Id);
             
             CreateTable(
                 "dbo.Reviews",
@@ -84,6 +80,19 @@ namespace Miam.DataLayer.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.MiamUserMiamRoles",
+                c => new
+                    {
+                        MiamUser_Id = c.Int(nullable: false),
+                        MiamRole_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.MiamUser_Id, t.MiamRole_Id })
+                .ForeignKey("dbo.MiamUsers", t => t.MiamUser_Id, cascadeDelete: true)
+                .ForeignKey("dbo.MiamRoles", t => t.MiamRole_Id, cascadeDelete: true)
+                .Index(t => t.MiamUser_Id)
+                .Index(t => t.MiamRole_Id);
+            
+            CreateTable(
                 "dbo.TagRestaurants",
                 c => new
                     {
@@ -105,20 +114,23 @@ namespace Miam.DataLayer.Migrations
             DropForeignKey("dbo.TagRestaurants", "Tag_Id", "dbo.Tags");
             DropForeignKey("dbo.Reviews", "RestaurantId", "dbo.Restaurants");
             DropForeignKey("dbo.RestaurantContactDetails", "RestaurantId", "dbo.Restaurants");
-            DropForeignKey("dbo.MiamRoles", "MiamUsers_Id", "dbo.MiamUsers");
+            DropForeignKey("dbo.MiamUserMiamRoles", "MiamRole_Id", "dbo.MiamRoles");
+            DropForeignKey("dbo.MiamUserMiamRoles", "MiamUser_Id", "dbo.MiamUsers");
             DropIndex("dbo.TagRestaurants", new[] { "Restaurant_Id" });
             DropIndex("dbo.TagRestaurants", new[] { "Tag_Id" });
+            DropIndex("dbo.MiamUserMiamRoles", new[] { "MiamRole_Id" });
+            DropIndex("dbo.MiamUserMiamRoles", new[] { "MiamUser_Id" });
             DropIndex("dbo.RestaurantContactDetails", new[] { "RestaurantId" });
             DropIndex("dbo.Reviews", new[] { "WriterId" });
             DropIndex("dbo.Reviews", new[] { "RestaurantId" });
-            DropIndex("dbo.MiamRoles", new[] { "MiamUsers_Id" });
             DropTable("dbo.TagRestaurants");
+            DropTable("dbo.MiamUserMiamRoles");
             DropTable("dbo.Tags");
             DropTable("dbo.RestaurantContactDetails");
             DropTable("dbo.Restaurants");
             DropTable("dbo.Reviews");
-            DropTable("dbo.MiamRoles");
             DropTable("dbo.MiamUsers");
+            DropTable("dbo.MiamRoles");
         }
     }
 }

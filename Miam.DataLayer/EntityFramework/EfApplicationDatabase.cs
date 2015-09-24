@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Data.SqlClient;
-using Miam.DataLayer.Migrations;
+//using Miam.DataLayer.Migrations;
 
 namespace Miam.DataLayer.EntityFramework
 {
@@ -37,8 +37,8 @@ namespace Miam.DataLayer.EntityFramework
 
         public void MigrateDatabaseToLatestVersion()
         {
-            var initializer = new MigrateDatabaseToLatestVersion<MiamDbContext, Configuration>();
-            Database.SetInitializer(initializer);
+            //var initializer = new MigrateDatabaseToLatestVersion<MiamDbContext, Configuration>();
+            //Database.SetInitializer(initializer);
         }
 
         public void CreatedatabaseIfNotExists()
@@ -62,7 +62,7 @@ namespace Miam.DataLayer.EntityFramework
             _context.Reviews.RemoveRange(_context.Reviews);
             _context.RestaurantTags.RemoveRange(_context.RestaurantTags);
             _context.MiamUsers.RemoveRange(_context.MiamUsers);
-            _context.Roles.RemoveRange(_context.Roles);
+            _context.MiamRoles.RemoveRange(_context.MiamRoles);
             _context.SaveChanges();
 
 
