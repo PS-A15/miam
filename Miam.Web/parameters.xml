@@ -4,9 +4,9 @@ Le fichier parameters.xml permet d'indiquer quels sont les fichiers de config qu
 -->
 
 <parameters>
-  <!--<parameter name="Environment">
-    <parameterEntry kind="XmlFile" scope="web.config" match="/configuration/appSettings/add[@key='Environment']/@value" />
-  </parameter>-->
+  <parameter name="ApplicationEnvironment">
+    <parameterEntry kind="XmlFile" scope="web.config" match="/configuration/appSettings/add[@key='ApplicationEnvironment']/@value" />
+  </parameter>
 
   <parameter name="ConnectionString" defaultValue="Chaine de connexion par défaut" >
     <parameterEntry kind="XmlFile" scope="ConnectionStrings.config" match="/connectionStrings/add/@connectionString" />
