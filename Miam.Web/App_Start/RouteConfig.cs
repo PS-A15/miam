@@ -14,10 +14,10 @@ namespace WebApplication1
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //if (ConfigurationManager.AppSettings["environment"] == "Production")
-            //{
-            //    routes.IgnoreRoute("Ci");
-            //}
+            if (ConfigurationManager.AppSettings["ApplicationEnvironment"] == "Production")
+            {
+                routes.IgnoreRoute("Ci");
+            }
 
             routes.MapRoute(
                 name: "Default",
